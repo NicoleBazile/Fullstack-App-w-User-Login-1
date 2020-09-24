@@ -3,6 +3,7 @@ body{
   word-wrap:break-word;
   background-image: url(img/ahh.jpg);
   background-size: cover;
+  color: grey;
 }
 img{
   height: 200px;
