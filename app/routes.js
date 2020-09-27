@@ -11,12 +11,18 @@ module.exports = function(app, passport, db) {
     app.get('/profile', isLoggedIn, function(req, res) { //once you're login w a passport you'll get all the stuff about the user that is being login
         db.collection('messages').find().toArray((err, result) => {
           if (err) return console.log(err)
-          res.render('profile.ejs', {
-            user : req.user,
-            messages: result
+          const messages1 = result;
+
+          db.collection('messages2').find().toArray((err, result) => {
+            if (err) return console.log(err)
+            res.render('profile.ejs', {
+              user : req.user,
+              messages: messages1,
+              messages2: result
           })
         })
-    });
+    })
+  });
 
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
@@ -26,8 +32,9 @@ module.exports = function(app, passport, db) {
 
 // message board routes ===============================================================
 
+//First Post=======
     app.post('/messages', (req, res) => {
-      db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0, image: req.body.image}, (err, result) => {
+      db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
         if (err) return console.log(err)
         console.log('saved to database')
         res.redirect('/profile')
@@ -71,6 +78,51 @@ module.exports = function(app, passport, db) {
       })
     })
 
+  //Second Post=======
+        app.post('/messages2', (req, res) => {
+          db.collection('messages2').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
+            if (err) return console.log(err)
+            console.log('saved to database')
+            res.redirect('/profile')
+          })
+        })
+
+        app.put('/messages2', (req, res) => {
+          db.collection('messages2')
+          .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
+            $set: {
+              thumbUp:req.body.thumbUp + 1
+            }
+          }, {
+            sort: {_id: -1},
+            upsert: true
+          }, (err, result) => {
+            if (err) return res.send(err)
+            res.send(result)
+          })
+        })
+
+        app.put('/thumbDown2', (req, res) => {
+          db.collection('messages2')
+          .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
+            $set: {
+              thumbUp:req.body.thumbUp - 1
+            }
+          }, {
+            sort: {_id: -1},
+            upsert: true
+          }, (err, result) => {
+            if (err) return res.send(err)
+            res.send(result)
+          })
+        })
+
+        app.delete('/messages2', (req, res) => {
+          db.collection('messages2').findOneAndDelete({name: req.body.name, msg: req.body.msg}, (err, result) => {
+            if (err) return res.send(500, err)
+            res.send('Message deleted!')
+          })
+        })
 
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
