@@ -1,5 +1,5 @@
 # Fullstack-App-w-User-Login-1
-Created an a fan page application with login and sign up capabilities. Also attached the an external database to store the inputted data of each of the users and messages board data
+Created an a fan page application with login and sign up capabilities. Also attached the an external database to store the inputted data of each of the users and messages board data. The user will be able to comment captions on images and delete only their comments.
 
 **Link to project:**
 
@@ -13,4 +13,4 @@ Created an a fan page application with login and sign up capabilities. Also atta
 pending..
 
 ## Lessons Learned:
-Developed a better understanding of how passports for log ins set ups work. 
+Developed a better understanding of how passports for log ins set ups work.

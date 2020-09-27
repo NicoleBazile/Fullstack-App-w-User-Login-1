@@ -2,10 +2,10 @@
 // get all the tools we need
 var express  = require('express');
 var app      = express();
-var port     = process.env.PORT || 8080;
+var port     = process.env.PORT || 8010;
 const MongoClient = require('mongodb').MongoClient
-var mongoose = require('mongoose');
-var passport = require('passport');
+var mongoose = require('mongoose'); //verify what this does
+var passport = require('passport'); //user authentication
 var flash    = require('connect-flash');
 
 var morgan       = require('morgan'); //debugger
